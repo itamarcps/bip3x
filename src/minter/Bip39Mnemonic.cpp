@@ -44,7 +44,7 @@ bip3x::Bip39Mnemonic::MnemonicResult bip3x::Bip39Mnemonic::generate(const char* 
     bytes_data bts(entropy);
 	
     for (size_t i = 0; i < entropy; ++i) {
-		RAND_bytes(bytes_buffer, 1);
+		RAND_bytes(&bytes_buffer, 1);
         bts.write(i, bytes_buffer);
     }
 
