@@ -281,7 +281,7 @@ endif ()
 
 if (${RUN})
 	add_executable(bip39dev src/main.cpp)
-	target_link_libraries(bip39dev ${LIB_NAME_MAIN})
+	target_link_libraries(bip39dev ${LIB_NAME_MAIN} ssl crypto)
 	#	target_compile_options(bip39dev PUBLIC -fsanitize=address -m64 -pipe -ffunction-sections -fdata-sections  -O0 -g -fno-omit-frame-pointer)
 endif ()
 
@@ -331,20 +331,20 @@ if (ENABLE_TEST)
 	endif ()
 
 	add_executable(${PROJECT_TEST_NAME} ${TEST_SOURCES})
-	target_link_libraries(${PROJECT_TEST_NAME} ${LIB_NAME_MAIN})
+	target_link_libraries(${PROJECT_TEST_NAME} ${LIB_NAME_MAIN} ssl crypto)
 
 	if (ENABLE_BIP39_C)
-		target_link_libraries(${PROJECT_TEST_NAME} ${LIB_NAME_C})
+		target_link_libraries(${PROJECT_TEST_NAME} ${LIB_NAME_C} ssl crypto)
 		target_include_directories(${PROJECT_TEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/bindings)
 	endif ()
 
-	target_link_libraries(${PROJECT_TEST_NAME} CONAN_PKG::gtest)
+	target_link_libraries(${PROJECT_TEST_NAME} CONAN_PKG::gtest ssl crypto)
 	target_include_directories(${PROJECT_TEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 	target_include_directories(${PROJECT_TEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 	gtest_add_tests(TARGET ${PROJECT_TEST_NAME})
 
 	if (ENABLE_BIP39_SANITIZE)
-		target_link_libraries(${PROJECT_TEST_NAME} asan)
+		target_link_libraries(${PROJECT_TEST_NAME} asan ssl crypto)
 		target_compile_options(${PROJECT_TEST_NAME} PUBLIC -fsanitize=address -m64 -pipe -ffunction-sections -fdata-sections -O0 -g -fno-omit-frame-pointer)
 	endif ()
 

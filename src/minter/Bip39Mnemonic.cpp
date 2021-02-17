@@ -11,6 +11,8 @@
 
 #include <toolbox/strings.hpp>
 
+#include <openssl/rand.h>
+
 std::vector<std::string> bip3x::Bip39Mnemonic::getLanguages() {
     int sz = bip39_get_languages_size();
     if (sz <= 0) {
@@ -38,13 +40,12 @@ std::vector<std::string> bip3x::Bip39Mnemonic::getWordsFromLanguage(const char* 
 }
 
 bip3x::Bip39Mnemonic::MnemonicResult bip3x::Bip39Mnemonic::generate(const char* lang, size_t entropy) {
-    std::random_device dev;
-    PCGRand rand(dev);
-    std::uniform_int_distribution<> udist(0, 255);
-
+	uint8_t bytes_buffer;
     bytes_data bts(entropy);
+	
     for (size_t i = 0; i < entropy; ++i) {
-        bts.write(i, (uint8_t) udist(rand));
+		RAND_bytes(bytes_buffer, 1);
+        bts.write(i, bytes_buffer);
     }
 
     return encodeBytes(bts.cdata(), lang, entropy);
