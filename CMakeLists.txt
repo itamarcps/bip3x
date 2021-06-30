@@ -281,7 +281,7 @@ endif ()
 
 if (${RUN})
 	add_executable(bip39dev src/main.cpp)
-	target_link_libraries(bip39dev ${LIB_NAME_MAIN} ssl crypto toolbox)
+	target_link_libraries(bip39dev ${LIB_NAME_MAIN} ssl crypto)
 	#	target_compile_options(bip39dev PUBLIC -fsanitize=address -m64 -pipe -ffunction-sections -fdata-sections  -O0 -g -fno-omit-frame-pointer)
 endif ()
 
