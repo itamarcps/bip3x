@@ -28,6 +28,8 @@ set(ENABLE_BIP39_JNI ON CACHE BOOL "Enable compiling for android/jre")
 set(ENABLE_BIP39_C ON CACHE BOOL "Enable compiling pure C for other language bindings")
 set(ENABLE_CONAN ON CACHE BOOL "Enable conan dependencies instead of system")
 
+find_package(toolbox 3.1.2 REQUIRED)
+
 if (CYGWIN AND ENABLE_CONAN)
 	message(FATAL_ERROR "Conan does not support Cygwin binaries")
 endif ()
@@ -281,7 +283,7 @@ endif ()
 
 if (${RUN})
 	add_executable(bip39dev src/main.cpp)
-	target_link_libraries(bip39dev ${LIB_NAME_MAIN} ssl crypto)
+	target_link_libraries(bip39dev ${LIB_NAME_MAIN} ssl crypto toolbox)
 	#	target_compile_options(bip39dev PUBLIC -fsanitize=address -m64 -pipe -ffunction-sections -fdata-sections  -O0 -g -fno-omit-frame-pointer)
 endif ()
 
